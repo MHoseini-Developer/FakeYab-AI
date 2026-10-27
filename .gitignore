@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+venv/
+.venv/
+
+# Local database
+db.sqlite3
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Local test image
+test_real.jpg
+
+# Uploaded files
+media/

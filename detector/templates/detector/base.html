@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}فیک یاب تصاویر{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link rel="stylesheet" href="{% static 'detector/css/style.css' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+    <header class="main-header">
+        <div class="header-inner">
+
+            <div class="logo">
+                <i class="fas fa-eye" style="color: #38bdf8;"></i>
+                <span>فیک یاب تصاویر</span>
+            </div>
+
+            <nav class="main-nav">
+                <ul>
+                    <li>
+                        <a href="{% url 'home' %}"
+                           class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                            <i class="fas fa-home"></i>
+                            صفحه اصلی
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{% url 'analyze' %}"
+                           class="{% if request.resolver_match.url_name == 'analyze' %}active{% endif %}">
+                            <i class="fas fa-microscope"></i>
+                            تحلیل
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{% url 'dashboard' %}"
+                           class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                            <i class="fas fa-chart-pie"></i>
+                            داشبورد
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{% url 'about' %}"
+                           class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+                            <i class="fas fa-file-alt"></i>
+                            درباره ما
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{% url 'contact' %}"
+                           class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+                            <i class="fas fa-envelope"></i>
+                            تماس
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <button class="mobile-toggle" id="mobileToggle" type="button">
+                <i class="fas fa-bars"></i>
+            </button>
+
+        </div>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    {% block extra_js %}{% endblock %}
+
+</body>
+</html>

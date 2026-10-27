@@ -1,0 +1,86 @@
+
+{% extends "detector/base.html" %}
+{% load static %}
+
+{% block title %}هوش مصنوعی پزشکی‌قانونی تصویر — تماس{% endblock %}
+
+{% block content %}
+
+<div class="wrapper">
+
+    <!-- ==================== PAGE HEADER ==================== -->
+    <div class="page-header">
+        <h1><i class="fas fa-envelope" style="color: #38bdf8;"></i> برقراری ارتباط</h1>
+        <p>
+            سوالات مربوط به دسترسی API، همکاری پژوهشی یا یکپارچه‌سازی سازمانی
+            باید از طریق این کانال امن ارسال شوند.
+        </p>
+    </div>
+
+    <!-- ==================== CONTACT INFO GRID ==================== -->
+    <div class="contact-grid">
+        <div class="contact-card">
+            <i class="fas fa-flask" style="color: #38bdf8; font-size: 1.8rem;"></i>
+            <h3>آزمایشگاه پژوهش</h3>
+            <p>شرکت فخری، دانشگاه قم</p>
+        </div>
+
+        <div class="contact-card">
+            <i class="fas fa-lock" style="color: #38bdf8; font-size: 1.8rem;"></i>
+            <h3>ارتباطات رمزنگاری‌شده</h3>
+            <p>
+                <a href="mailto:secure@visioncore.ai" style="color: #94a3b8; text-decoration: none;">
+                    secure@visioncore.ai
+                </a>
+            </p>
+        </div>
+
+        <div class="contact-card">
+            <i class="fas fa-server" style="color: #38bdf8; font-size: 1.8rem;"></i>
+            <h3>وضعیت سامانه</h3>
+            <p><span style="color: #4ade80;">فعال</span></p>
+        </div>
+    </div>
+
+    <!-- ==================== TERMINAL INPUT (Mock) ==================== -->
+    <div class="terminal-box">
+        <div class="terminal-header">
+            <span><i class="fas fa-terminal"></i> دنباله ورودی ترمینال</span>
+            <span style="color: #475569;">_</span>
+        </div>
+
+        <div class="terminal-body">
+            <p><span style="color: #4ade80;">$</span> connect --secure --target visioncore.ai</p>
+            <p>
+                <span style="color: #4ade80;">></span>
+                <span style="color: #94a3b8;">در حال برقراری کانال رمزنگاری‌شده...</span>
+            </p>
+            <p>
+                <span style="color: #4ade80;">></span>
+                <span style="color: #94a3b8;">ارتباط آماده است. پیام خود را ارسال کنید.</span>
+            </p>
+
+            <div class="terminal-input-line">
+                <span style="color: #4ade80;">$</span>
+                <input
+                    type="text"
+                    placeholder="پیام خود را تایپ کنید..."
+                    class="terminal-input"
+                    id="terminalInput"
+                />
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <p>&copy; ۲۰۲۶ هوش مصنوعی پزشکی‌قانونی تصویر — تمامی حقوق محفوظ است.</p>
+    </footer>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'detector/js/main.js' %}"></script>
+{% endblock %}

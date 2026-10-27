@@ -1,0 +1,205 @@
+{% extends "detector/base.html" %}
+{% load static %}
+
+{% block title %}هوش مصنوعی پزشکی‌قانونی تصویر — تحلیل{% endblock %}
+
+{% block content %}
+
+{% csrf_token %}
+
+<div class="wrapper">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <h1><i class="fas fa-microscope" style="color: #38bdf8;"></i> کنسول تحلیل تصویر</h1>
+        <p>یک مصنوع را برای بررسی عمیق پزشکی‌قانونی بارگذاری کنید.</p>
+    </div>
+
+    <!-- UPLOAD ROW -->
+    <div class="upload-row">
+        <div class="upload-box-full" id="uploadArea">
+            <div class="upload-content">
+                <i class="fas fa-cloud-upload-alt" style="font-size: 2.8rem; color: #38bdf8;"></i>
+                <h3>تصویر خود را اینجا بفرستید</h3>
+                <p>یا برای مرور کلیک کنید &nbsp;·&nbsp; JPG، PNG، WEBP تا ۲۰ مگابایت</p>
+
+                <input type="file" id="fileInput" accept="image/*" style="display: none;" />
+
+                <button class="btn-primary" id="browseBtn" type="button">
+                    <i class="fas fa-folder-open"></i> انتخاب تصویر
+                </button>
+            </div>
+        </div>
+
+        <div class="upload-status" id="uploadStatus">
+            <span class="status-dot idle"></span>
+            <span class="status-text">در انتظار ورودی...</span>
+        </div>
+    </div>
+
+    <!-- RESULT GRID -->
+    <div class="result-grid" id="resultGrid" style="display: none;">
+
+        <!-- SUMMARY -->
+        <div class="summary-bar">
+            <div class="summary-item">
+                <span class="summary-label">تولیدشده توسط هوش مصنوعی</span>
+                <span class="summary-value" id="summaryStatus">—</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">اطمینان</span>
+                <span class="summary-value" id="summaryConfidence">—</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">زمان پردازش</span>
+                <span class="summary-value" id="summaryTime">—</span>
+            </div>
+        </div>
+
+        <!-- PROBABILITY CARDS -->
+        <div class="proba-grid">
+            <div class="proba-card">
+                <h4>احتمال مصنوعی بودن</h4>
+                <div class="proba-bar">
+                    <div class="proba-fill fake" id="synthBar" style="width: 0%;"></div>
+                </div>
+                <span class="proba-value" id="synthValue">۰٪</span>
+            </div>
+
+            <div class="proba-card">
+                <h4>احتمال اصالت</h4>
+                <div class="proba-bar">
+                    <div class="proba-fill authentic" id="authBar" style="width: 0%;"></div>
+                </div>
+                <span class="proba-value" id="authValue">۰٪</span>
+            </div>
+        </div>
+
+        <!-- ANALYSIS CARDS -->
+        <div class="analysis-cards">
+            <div class="analysis-card">
+                <div class="card-header">
+                    <i class="fas fa-file-alt" style="color: #38bdf8;"></i>
+                    <span class="card-badge" id="metaBadge">—</span>
+                </div>
+                <h4>تحلیل فراداده</h4>
+                <p id="metaText">در انتظار داده...</p>
+            </div>
+
+            <div class="analysis-card">
+                <div class="card-header">
+                    <i class="fas fa-wave-square" style="color: #38bdf8;"></i>
+                    <span class="card-badge" id="freqBadge">—</span>
+                </div>
+                <h4>حوزه فرکانس</h4>
+                <p id="freqText">در انتظار داده...</p>
+            </div>
+
+            <div class="analysis-card">
+                <div class="card-header">
+                    <i class="fas fa-palette" style="color: #38bdf8;"></i>
+                    <span class="card-badge" id="artifactBadge">—</span>
+                </div>
+                <h4>تشخیص مصنوعات</h4>
+                <p id="artifactText">در انتظار داده...</p>
+            </div>
+
+            <div class="analysis-card">
+                <div class="card-header">
+                    <i class="fas fa-brain" style="color: #38bdf8;"></i>
+                    <span class="card-badge" id="modelBadge">—</span>
+                </div>
+                <h4>پیش‌بینی مدل</h4>
+                <p id="modelText">در انتظار داده...</p>
+            </div>
+        </div>
+
+        <!-- VISUAL CARDS -->
+        <div class="visual-row">
+            <div class="visual-card">
+                <h4><i class="fas fa-fire"></i> نقشه فعال‌سازی Grad-CAM</h4>
+
+                <div class="mock-heatmap" id="heatmap">
+                    <div class="heat-grid">
+                        <span class="heat-label">کم</span>
+                        <div class="heat-bar"></div>
+                        <span class="heat-label">زیاد</span>
+                    </div>
+
+                    <div class="heat-preview">
+                        <div class="heat-pixel" style="opacity:0.1;"></div>
+                        <div class="heat-pixel" style="opacity:0.3;"></div>
+                        <div class="heat-pixel" style="opacity:0.6;"></div>
+                        <div class="heat-pixel" style="opacity:0.9;"></div>
+                        <div class="heat-pixel" style="opacity:0.4;"></div>
+                        <div class="heat-pixel" style="opacity:0.2;"></div>
+                        <div class="heat-pixel" style="opacity:0.8;"></div>
+                        <div class="heat-pixel" style="opacity:1.0;"></div>
+                        <div class="heat-pixel" style="opacity:0.5;"></div>
+                        <div class="heat-pixel" style="opacity:0.7;"></div>
+                        <div class="heat-pixel" style="opacity:0.3;"></div>
+                        <div class="heat-pixel" style="opacity:0.6;"></div>
+                        <div class="heat-pixel" style="opacity:0.9;"></div>
+                        <div class="heat-pixel" style="opacity:0.4;"></div>
+                        <div class="heat-pixel" style="opacity:0.2;"></div>
+                        <div class="heat-pixel" style="opacity:0.8;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="visual-card">
+                <h4><i class="fas fa-chart-area"></i> طیف فرکانس (DCT)</h4>
+
+                <div class="mock-spectrum">
+                    <svg viewBox="0 0 300 80" style="width:100%; height:80px;">
+                        <polyline
+                            points="0,70 20,65 40,60 60,50 80,45 100,30 120,35 140,20 160,25 180,15 200,20 220,10 240,15 260,5 280,10 300,0"
+                            fill="none"
+                            stroke="#38bdf8"
+                            stroke-width="2.5"
+                        />
+                        <polyline
+                            points="0,75 20,72 40,68 60,62 80,58 100,48 120,50 140,38 160,42 180,32 200,36 220,28 240,30 260,22 280,25 300,18"
+                            fill="none"
+                            stroke="#818cf8"
+                            stroke-width="1.5"
+                            stroke-dasharray="4 4"
+                        />
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="action-row">
+            <button class="btn-pdf" id="pdfBtn" type="button">
+                <i class="fas fa-file-pdf"></i> خروجی گزارش کامل (PDF)
+            </button>
+
+            <button class="btn-secondary" id="resetBtn" type="button">
+                <i class="fas fa-redo"></i> تحلیل جدید
+            </button>
+        </div>
+
+    </div>
+    <!-- /RESULT GRID -->
+
+    <!-- FOOTER -->
+    <footer class="footer-legal">
+        <div class="legal-inner">
+            <span>© ۲۰۲۶ آزمایشگاه پزشکی‌قانونی تصویر VisionCore</span>
+            <div class="legal-links">
+                <a href="#">حریم خصوصی</a>
+                <a href="#">شرایط</a>
+                <a href="#">پروتکل پژوهش</a>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'detector/js/main.js' %}"></script>
+{% endblock %}

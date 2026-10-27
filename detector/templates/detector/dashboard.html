@@ -1,0 +1,196 @@
+{% extends "detector/base.html" %}
+{% load static %}
+
+{% block title %}هوش مصنوعی پزشکی‌قانونی تصویر — داشبورد{% endblock %}
+
+{% block content %}
+
+<div class="wrapper">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <h1><i class="fas fa-chart-pie" style="color: #38bdf8;"></i> داشبورد دورسنجی</h1>
+        <p>عملکرد سیستم و معیارهای تحلیل تاریخی.</p>
+    </div>
+
+    <!-- LIVE STATUS -->
+    <div class="live-status">
+        <span>
+            <i class="fas fa-circle" style="color: #4ade80; font-size: 0.7rem;"></i>
+            اتصال زنده برقرار است
+        </span>
+    </div>
+
+    <!-- DASHBOARD STATS -->
+    <div class="dashboard-stats">
+
+        <div class="dash-stat">
+            <span class="dash-stat-value">{{ total_analyses }}</span>
+            <span class="dash-stat-label">کل تحلیل‌ها</span>
+            <span class="dash-stat-change positive">
+                <i class="fas fa-chart-line"></i>
+                تحلیل‌های ثبت‌شده
+            </span>
+        </div>
+
+        <div class="dash-stat">
+            <span class="dash-stat-value">{{ fake_count }}</span>
+            <span class="dash-stat-label">تصاویر جعلی</span>
+            <span class="dash-stat-change positive">
+                <i class="fas fa-triangle-exclamation"></i>
+                تشخیص داده‌شده
+            </span>
+        </div>
+
+        <div class="dash-stat">
+            <span class="dash-stat-value">{{ real_count }}</span>
+            <span class="dash-stat-label">تصاویر اصیل</span>
+            <span class="dash-stat-change positive">
+                <i class="fas fa-check-circle"></i>
+                تشخیص داده‌شده
+            </span>
+        </div>
+
+        <div class="dash-stat">
+            <span class="dash-stat-value">{{ average_confidence|floatformat:2 }}%</span>
+            <span class="dash-stat-label">میانگین اطمینان</span>
+            <span class="dash-stat-change positive">
+                <i class="fas fa-brain"></i>
+                مدل فعال
+            </span>
+        </div>
+
+    </div>
+
+    <!-- CHARTS -->
+    <div class="charts-grid">
+
+        <div class="chart-card">
+            <h3>حجم تحلیل‌ها (۳۰ روز)</h3>
+
+            <div class="mock-chart bars">
+                <div class="bar-group">
+
+                    <div
+                        class="bar fake"
+                        style="height: {{ fake_percentage }}%;">
+                    </div>
+
+                    <div
+                        class="bar total"
+                        style="height: {{ real_percentage }}%;">
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="chart-legend">
+                <span>
+                    <span class="legend-dot fake-dot"></span>
+                    جعلی: {{ fake_count }}
+                </span>
+
+                <span>
+                    <span class="legend-dot total-dot"></span>
+                    اصیل: {{ real_count }}
+                </span>
+            </div>
+        </div>
+
+        <div class="chart-card">
+            <h3>توزیع نتایج تحلیل‌ها</h3>
+
+            <div class="mock-chart bars">
+                <div class="bar-group">
+
+                    <div
+                        class="bar total"
+                        style="height: {% if total_analyses %}{{ fake_count|floatformat:0 }}%{% else %}0%{% endif %};">
+                    </div>
+
+                    <div
+                        class="bar fake"
+                        style="height: {% if total_analyses %}{{ real_count|floatformat:0 }}%{% else %}0%{% endif %};">
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="chart-legend">
+                <span>
+                    <span class="legend-dot" style="background:#38bdf8;"></span>
+                    جاری
+                </span>
+
+                <span>
+                    <span class="legend-dot" style="background:#818cf8;"></span>
+                    خط پایه
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- RECENT ANALYSES -->
+    <section class="recent-section">
+
+        <div class="recent-header">
+            <h3>تحلیل‌های اخیر</h3>
+            <a href="#" class="link-muted">
+                مشاهده همه <i class="fas fa-arrow-left"></i>
+            </a>
+        </div>
+
+        <div class="recent-table">
+
+            {% for analysis in recent_analyses %}
+
+                <div class="recent-row">
+
+                    <span class="recent-id">
+                        #{{ analysis.id }}
+                    </span>
+
+                    <span class="recent-time">
+                        {{ analysis.created_at|date:"Y/m/d - H:i" }}
+                    </span>
+
+                    {% if analysis.result == "FAKE" %}
+                        <span class="recent-status fake">
+                            جعلی {% widthratio analysis.confidence 1 100 %}٪
+                        </span>
+                    {% else %}
+                        <span class="recent-status authentic">
+                            واقعی {% widthratio analysis.confidence 1 100 %}٪
+                        </span>
+                    {% endif %}
+
+                    <span class="recent-source">
+                        {{ analysis.image_name }}
+                    </span>
+
+                </div>
+
+            {% empty %}
+
+                <div class="recent-row">
+                    <span>هنوز هیچ تحلیلی ثبت نشده است.</span>
+                </div>
+
+            {% endfor %}
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; ۲۰۲۶ هوش مصنوعی پزشکی‌قانونی تصویر — تمامی حقوق محفوظ است.</p>
+    </footer>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'detector/js/main.js' %}"></script>
+{% endblock %}

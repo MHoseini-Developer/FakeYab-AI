@@ -1,0 +1,121 @@
+{% extends "detector/base.html" %}
+{% load static %}
+
+{% block title %}فیک یاب | صفحه اصلی{% endblock %}
+
+{% block content %}
+
+<div class="wrapper">
+
+    <!-- STATUS BADGE -->
+    <div class="status-badge">
+        <span class="dot"></span>
+        نسخه ۲.۴.۰ — سامانه فعال
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+        <h1>
+            سامانه تشخیص محتوای
+            <span class="gradient-text">مصنوعی و دیپ‌فیک</span><br />
+        </h1>
+        <p class="hero-desc">
+            تشخیص دقیق تصاویر جعل‌شده با بهره‌گیری از شبکه‌های عصبی عمیق و تحلیل فورنسیک دیجیتال؛ مهندسی‌شده برای بالاترین استانداردهای علمی.
+        </p>
+    </section>
+
+    <!-- TELEMETRY STATS -->
+    <div class="stats-grid">
+        <div class="stat-item">
+            <span class="stat-value">۱۲۴ میلی‌ثانیه</span>
+            <span class="stat-label">زمان پاسخ‌دهی</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-value">۸۷٪</span>
+            <span class="stat-label">دقت ارزیابی</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-value">+2 هزار</span>
+            <span class="stat-label">تصاویر پردازش‌شده</span>
+        </div>
+    </div>
+
+    <!-- LAYERS SECTION -->
+    <section class="layers-section">
+        <h2 class="section-title">فرآیند تحلیل در چند مرحله</h2>
+        <p class="section-sub">
+            سیستم ما هر تصویر را در چهار لایهٔ مجزا و دقیق از نظرهای مختلف بررسی می‌کند و با کنار هم گذاشتن و مقایسهٔ نشانه‌ها و ناهنجاری‌های به‌دست‌آمده، می‌کوشد با بالاترین دقت، اصالت یا جعلی‌بودن تصویر را تشخیص دهد.
+        </p>
+
+        <div class="layers-grid">
+            <div class="layer-card">
+                <span class="layer-badge">لایه ۱</span>
+                <h3>بررسی فراداده</h3>
+                <p>استخراج داده‌های EXIF، XMP و ساختار عمیق برای شناسایی امضای نرم‌افزار.</p>
+            </div>
+
+            <div class="layer-card">
+                <span class="layer-badge">لایه ۲</span>
+                <h3>تحلیل فرکانسی</h3>
+                <p>تحلیل ضرایب DCT که الگوهای غیرطبیعی باقی‌مانده از GANها را آشکار می‌کند.</p>
+            </div>
+
+            <div class="layer-card">
+                <span class="layer-badge">لایه ۳</span>
+                <h3>شناسایی ناهنجاری‌ها</h3>
+                <p>بررسی سطح پیکسل برای ناهماهنگی‌های فشرده‌سازی و نویز لبه‌ها.</p>
+            </div>
+
+            <div class="layer-card">
+                <span class="layer-badge">لایه ۴</span>
+                <h3>تحلیل هوشمند تصویر</h3>
+                <p>تحلیل تصویر با مدل‌های پیشرفتهٔ بینایی برای سنجش احتمال تولید هوش مصنوعی.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESEARCH SECTION -->
+    <section class="research-section">
+        <div class="research-inner">
+            <span class="research-tag">درجه پژوهش</span>
+            <h2>ساخته شده بر پایه یادگیری عمیق پیشرفته</h2>
+            <p>
+                ما از معماری اصلاح‌شده EfficientNet-B4 به همراه مکانیسم‌های توجه متقاطع سفارشی استفاده می‌کنیم.
+                با ترکیب تحلیل مکانی و ویژگی‌های حوزه فرکانس، مدل مصنوعات ظریف سنتز باقی‌مانده از
+                Midjourney، DALL-E 3 و Stable Diffusion را شناسایی می‌کند.
+            </p>
+
+            <ul class="tech-list">
+                <li><i class="fas fa-microchip"></i> موتور استنتاج مبتنی بر PyTorch</li>
+                <li><i class="fas fa-chart-line"></i> نقشه‌های حرارتی Grad-CAM بلادرنگ</li>
+                <li><i class="fas fa-wave-square"></i> تحلیل تبدیل کسینوسی گسسته (DCT)</li>
+                <li><i class="fas fa-database"></i> AUC ۹۹٫۴٪ بر روی مجموعه داده FakeImage-1M</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <h2>آماده آزمایش سامانه هستید؟</h2>
+        <p>
+            تصویر خود را در خط‌لوله تحلیل ما بارگذاری کنید و در عرض چند ثانیه
+            یک گزارش پزشکی‌قانونی جامع دریافت نمایید.
+        </p>
+        <a href="{% url 'analyze' %}" class="btn-primary">
+            <i class="fas fa-upload"></i>
+            برو به تحلیل
+        </a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; ۲۰۲۶ هوش مصنوعی پزشکی‌قانونی تصویر — تمامی حقوق محفوظ است.</p>
+    </footer>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'detector/js/main.js' %}"></script>
+{% endblock %}
